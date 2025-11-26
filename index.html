@@ -1,197 +1,540 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Pat's Hub Store</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #111;
-    color: white;
-    margin: 0;
-    padding: 20px;
+  :root{
+    --bg:#1b003f;
+    --card: rgba(42,0,95,0.85);
+    --accent1: #a64fff;
+    --accent2: #7200c0;
+    --muted:#cfc7ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter, "Segoe UI", Arial, sans-serif;
+    background:linear-gradient(180deg,var(--bg) 0%, #0f0421 100%);
+    color:#fff;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    padding:28px;
   }
 
-  .tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+  header{
+    text-align:center;
+    margin-bottom:18px;
+  }
+  header h1{
+    margin:0;
+    font-size:32px;
+    letter-spacing:1px;
+    text-shadow:0 0 18px rgba(255,255,255,0.12);
+  }
+  .container{
+    max-width:980px;
+    margin:0 auto;
   }
 
-  .tab {
-    padding: 10px 20px;
-    background: #222;
-    border-radius: 8px;
-    cursor: pointer;
+  /* selection row */
+  .selection {
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    margin:20px 0 28px;
+    flex-wrap:wrap;
+  }
+  .select-card{
+    background:var(--card);
+    padding:22px;
+    border-radius:14px;
+    width:290px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(150,0,255,0.12);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .select-card h3{margin:0 0 8px;font-size:18px;text-shadow:0 0 8px rgba(255,255,255,0.06)}
+  .select-card p{margin:0 0 14px;color:var(--muted)}
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 16px;
+    border-radius:999px;
+    border:0;
+    background:linear-gradient(90deg,var(--accent1),var(--accent2));
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 6px 30px rgba(106,32,189,0.15);
+  }
+  .select-card:hover{transform:translateY(-6px);box-shadow:0 10px 40px rgba(106,32,189,0.18)}
+
+  /* pages */
+  .page{
+    display:none;
+  }
+  .page.active{display:block}
+
+  /* product card list (Brainrots) */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:14px;
+    margin-top:18px;
+  }
+  .card{
+    background:var(--card);
+    padding:16px;
+    border-radius:12px;
+    box-shadow:0 0 30px rgba(150,0,255,0.08);
+    transition:transform .15s ease;
+  }
+  .card h4{margin:0 0 8px;font-size:16px}
+  .meta{color:var(--muted);font-size:13px;margin-bottom:12px}
+  .card .buy{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    align-items:center;
+  }
+  .small-btn{
+    padding:8px 12px;border-radius:10px;border:0;background:transparent;color:#fff;cursor:pointer;
+    box-shadow:inset 0 -2px 0 rgba(0,0,0,0.12);
+  }
+  .price{
+    font-weight:800;
+    font-size:15px;
+    color:#fff;
   }
 
-  .tab.active {
-    background: #444;
+  /* checkout */
+  .checkout{
+    max-width:720px;margin:12px auto;background:var(--card);padding:20px;border-radius:12px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
   }
+  .checkout h3{margin:0 0 6px}
+  .checkout p{color:var(--muted);margin:0 0 12px}
+  .pay-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .pay-btn{flex:0 0 auto;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+  .pay-paypal{background:#00457c;color:#fff}
+  .pay-cash{background:#14b066;color:#fff}
+  .pay-btc{background:#f7931a;color:#fff}
 
-  .tab-content {
-    display: none;
-  }
+  label{display:block;margin:10px 0 6px;color:var(--muted);font-size:13px}
+  input[type="text"]{width:100%;padding:10px;border-radius:8px;border:0;background:rgba(255,255,255,0.03);color:#fff}
 
-  .tab-content.active {
-    display: block;
-  }
-
-  .button {
-    padding: 10px 20px;
-    background: #2b6;
-    border: none;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    margin: 5px 0;
-  }
-
-  .product-box {
-    background: #222;
-    padding: 15px;
-    margin: 15px 0;
-    border-radius: 8px;
+  footer{margin-top:26px;color:var(--muted);text-align:center;font-size:13px}
+  @media(max-width:520px){
+    .selection{flex-direction:column;align-items:center}
+    .select-card{width:100%}
   }
 </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Pat's Hub Store</h1>
+      <div style="color:var(--muted);font-size:14px;margin-top:6px">Pick a product, then pay — create a ticket in Discord after payment.</div>
+    </header>
+
+    <!-- PRODUCT SELECTION (now contains Autojoiner, Premium, Brainrots buttons) -->
+    <div id="selection" class="selection">
+      <div class="select-card">
+        <h3>Autojoiner 100M+</h3>
+        <p>Subscription • $10 / week • Produces: 100M+ joins</p>
+        <button class="btn" onclick="showPage('autojoiner')"><i class="fas fa-rocket"></i> Select Autojoiner</button>
+      </div>
+
+      <div class="select-card">
+        <h3>Premium Key</h3>
+        <p>Lifetime access • $5</p>
+        <button class="btn" onclick="showPage('premium')"><i class="fas fa-key"></i> Select Premium</button>
+      </div>
+
+      <div class="select-card">
+        <h3>Brainrots</h3>
+        <p>Click to browse all Brainrot products</p>
+        <button class="btn" onclick="showPage('brainrots')"><i class="fas fa-ghost"></i> Browse Brainrots</button>
+      </div>
+    </div>
+
+    <!-- AUTOJOINER PAGE -->
+    <section id="autojoiner" class="page" aria-hidden="true">
+      <div class="checkout">
+        <h3>Autojoiner 100M+</h3>
+        <p>Price: $10 / week • Produces: 156 M/s</p>
+
+        <div class="pay-row">
+          <button class="pay-btn pay-cash" onclick="window.location.href='https://cash.app/$ApplicationLS'"><i class="fas fa-dollar-sign"></i> CashApp</button>
+          <button class="pay-btn pay-paypal" onclick="window.location.href='https://www.paypal.me/SteFkSo'"><i class="fab fa-paypal"></i> PayPal</button>
+          <button class="pay-btn pay-btc" onclick="copyBTC()">Copy BTC</button>
+        </div>
+
+        <label>Robux Gift Card Code (optional) — submit to verify:</label>
+        <form id="form-autojoiner">
+          <input type="text" name="code" placeholder="Enter Robux code (if paying with Robux)">
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <button type="submit" class="btn">Submit Code</button>
+            <button type="button" class="small-btn" onclick="showPage('selection')">Back</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- PREMIUM PAGE -->
+    <section id="premium" class="page" aria-hidden="true">
+      <div class="checkout">
+        <h3>Premium Key</h3>
+        <p>Price: $5 lifetime</p>
+
+        <div class="pay-row">
+          <button class="pay-btn pay-cash" onclick="window.location.href='https://cash.app/$ApplicationLS'">CashApp</button>
+          <button class="pay-btn pay-paypal" onclick="window.location.href='https://www.paypal.me/SteFkSo'">PayPal</button>
+          <button class="pay-btn pay-btc" onclick="copyBTC()">Copy BTC</button>
+        </div>
+
+        <label>Robux Gift Card Code (optional) — submit to verify:</label>
+        <form id="form-premium">
+          <input type="text" name="code" placeholder="Enter Robux code (if paying with Robux)">
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <button type="submit" class="btn">Submit Code</button>
+            <button type="button" class="small-btn" onclick="showPage('selection')">Back</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- BRAINROTS PAGE (cards style) -->
+    <section id="brainrots" class="page" aria-hidden="true">
+      <h2 style="margin:6px 0 10px">Brainrots</h2>
+      <div class="grid">
+
+        <!-- Each card leads to its own checkout page -->
+        <div class="card">
+          <h4>Mieteteira Biciclerteira</h4>
+          <div class="meta">Produces: 156 M/s</div>
+          <div class="buy">
+            <div class="price">$10</div>
+            <button class="small-btn" onclick="showProductCheckout('Mieteteira Biciclerteira',10,'156 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Los 67</h4>
+          <div class="meta">Produces: 202 M/s</div>
+          <div class="buy">
+            <div class="price">$10</div>
+            <button class="small-btn" onclick="showProductCheckout('Los 67',10,'202 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Evildon</h4>
+          <div class="meta">Produces: 31.5 M/s • No traits</div>
+          <div class="buy">
+            <div class="price">$10</div>
+            <button class="small-btn" onclick="showProductCheckout('Evildon',10,'31.5 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Ketchuro & Musture</h4>
+          <div class="meta">Produces: 42.5 M/s • No traits</div>
+          <div class="buy">
+            <div class="price">$25</div>
+            <button class="small-btn" onclick="showProductCheckout('Ketchuro & Musture',25,'42.5 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Esok Sekolah (Mutation Ying Yang)</h4>
+          <div class="meta">Produces: 225 M/s • No traits</div>
+          <div class="buy">
+            <div class="price">$20</div>
+            <button class="small-btn" onclick="showProductCheckout('Esok Sekolah Mutation Ying Yang',20,'225 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Esok Sekolah (Regular)</h4>
+          <div class="meta">Produces: 30 M/s • Stock: 5</div>
+          <div class="buy">
+            <div class="price">$5</div>
+            <button class="small-btn" onclick="showProductCheckout('Esok Sekolah Regular',5,'30 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Los Bro (Gold, Nyan Cat trait)</h4>
+          <div class="meta">Produces: 150 M/s • Nyan Cat</div>
+          <div class="buy">
+            <div class="price">$20</div>
+            <button class="small-btn" onclick="showProductCheckout('Los Bro Gold (Nyan Cat)',20,'150 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Los Bros Again (Hat trait)</h4>
+          <div class="meta">Produces: 108 M/s • Hat trait • No mutation</div>
+          <div class="buy">
+            <div class="price">$15</div>
+            <button class="small-btn" onclick="showProductCheckout('Los Bros Again (Hat)',15,'108 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Las Sis (Hat trait)</h4>
+          <div class="meta">Produces: 78.7 M/s • Hat trait</div>
+          <div class="buy">
+            <div class="price">$10</div>
+            <button class="small-btn" onclick="showProductCheckout('Las Sis (Hat)',10,'78.7 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Los Mobilis (Rainbow mutation)</h4>
+          <div class="meta">Produces: 220 M/s</div>
+          <div class="buy">
+            <div class="price">$10</div>
+            <button class="small-btn" onclick="showProductCheckout('Los Mobilis Rainbow',10,'220 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Los Mobilis Rainbow (Taco trait)</h4>
+          <div class="meta">Produces: 264 M/s • Taco trait</div>
+          <div class="buy">
+            <div class="price">$12</div>
+            <button class="small-btn" onclick="showProductCheckout('Los Mobilis Rainbow (Taco)',12,'264 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Spaghetti Tualetti (Mutation, Gold, Taco)</h4>
+          <div class="meta">Produces: 195 M/s • Gold + Taco</div>
+          <div class="buy">
+            <div class="price">$20</div>
+            <button class="small-btn" onclick="showProductCheckout('Spaghetti Tualetti (Gold+Taco)',20,'195 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Spaghetti Tualetti (Gold)</h4>
+          <div class="meta">Produces: 75 M/s</div>
+          <div class="buy">
+            <div class="price">$10</div>
+            <button class="small-btn" onclick="showProductCheckout('Spaghetti Tualetti (Gold)',10,'75 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Spaghetti Tualitti (Nyan Cat)</h4>
+          <div class="meta">Produces: 360 M/s • Nyan Cat</div>
+          <div class="buy">
+            <div class="price">$25</div>
+            <button class="small-btn" onclick="showProductCheckout('Spaghetti Tualitti (Nyan)',25,'360 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>La Grande Combinasion</h4>
+          <div class="meta">Produces: 120 M/s • Bubble Gum, Bombardillo Cocodrillo, Fire</div>
+          <div class="buy">
+            <div class="price">$10</div>
+            <button class="small-btn" onclick="showProductCheckout('La Grande Combinasion',10,'120 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>La Spooky Grade (Diamond)</h4>
+          <div class="meta">Produces: 20.8 M/s • Taco + Fire</div>
+          <div class="buy">
+            <div class="price">$15</div>
+            <button class="small-btn" onclick="showProductCheckout('La Spooky Grade (Diamond)',15,'20.8 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Chilin Chili</h4>
+          <div class="meta">Produces: 335 M/s • Orcalero, Cucaracha, Fire</div>
+          <div class="buy">
+            <div class="price">$30</div>
+            <button class="small-btn" onclick="showProductCheckout('Chilin Chili',30,'335 M/s')">Buy</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>La Taco Combinasion</h4>
+          <div class="meta">Produces: 210 M/s • Fire</div>
+          <div class="buy">
+            <div class="price">$30</div>
+            <button class="small-btn" onclick="showProductCheckout('La Taco Combinasion',30,'210 M/s')">Buy</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:16px;text-align:center">
+        <button class="small-btn" onclick="showPage('selection')">Back to Products</button>
+      </div>
+    </section>
+
+    <!-- INDIVIDUAL CHECKOUT PANE -->
+    <section id="product-checkout" class="page" aria-hidden="true">
+      <div class="checkout">
+        <h3 id="p-title">Product</h3>
+        <p id="p-sub">Price / stats</p>
+
+        <div class="pay-row">
+          <button class="pay-btn pay-cash" id="btn-cash">Pay with CashApp</button>
+          <button class="pay-btn pay-paypal" id="btn-paypal">Pay with PayPal</button>
+          <button class="pay-btn pay-btc" id="btn-btc">Copy BTC</button>
+        </div>
+
+        <label for="code-input">Robux gift card code (if paying via Robux/other)</label>
+        <form id="product-form">
+          <input type="text" id="code-input" name="code" placeholder="Enter gift card code (optional)">
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <button type="submit" class="btn">Submit Code</button>
+            <button type="button" class="small-btn" onclick="showPage('brainrots')">Back</button>
+          </div>
+        </form>
+
+      </div>
+    </section>
+
+    <footer>
+      After payment, create a ticket in the Discord server to claim your purchase.
+    </footer>
+  </div>
 
 <script>
-function openTab(tabName) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  // default payment links
+  const CASHAPP = 'https://cash.app/$ApplicationLS';
+  const PAYPAL = 'https://www.paypal.me/SteFkSo';
+  const BTC_ADDR = '13UscXcbzuznYv4SqG6ostz9ywEHhwfeEF';
 
-  document.querySelector(`.tab[data-tab='${tabName}']`).classList.add('active');
-  document.getElementById(tabName).classList.add('active');
-}
+  // webhooks you provided earlier
+  const MAIN_WEBHOOK = 'https://canary.discord.com/api/webhooks/1442684882974408779/g8oL6800WPBq1agLxoE4KZy4wkOfPQMEJzB_cPlbXV_zk8d5b7WkSAx_kZbhF1qscmSh';
+  const BRAINROTS_WEBHOOK = 'https://canary.discord.com/api/webhooks/1443116045761118240/quVFsnQ02nduL-PRLXNwulzbDjtz5RIIpHcbDvVYTTjyIPyuDyU0pUggrR2LrDGZZ5MU';
 
-function openProduct(name, price, stats) {
-  document.getElementById("checkout-title").innerText = name;
-  document.getElementById("checkout-info").innerText = `Price: $${price} • ${stats}`;
-  openTab("checkout");
-}
+  // helper to show pages
+  function showPage(id){
+    document.querySelectorAll('.page').forEach(p=>{
+      p.classList.remove('active');
+      p.setAttribute('aria-hidden','true');
+    });
+    document.getElementById('selection').style.display = (id === 'selection') ? 'flex' : 'none';
+    if(id === 'selection'){
+      // nothing else
+    } else {
+      document.getElementById('selection').style.display = 'none';
+      const el = document.getElementById(id);
+      if(el){ el.classList.add('active'); el.setAttribute('aria-hidden','false'); }
+    }
+    // scroll top
+    window.scrollTo({top:0,behavior:'auto'});
+  }
 
-function backToBrainrots() {
-  openTab("brainrots");
-}
+  // open initial selection view
+  showPage('selection');
+
+  // product info for checkout (will be filled when clicking Buy)
+  let CURRENT_PRODUCT = { name:'', price:0, stats:'' };
+
+  function showProductCheckout(name, price, stats){
+    CURRENT_PRODUCT = { name, price, stats };
+    document.getElementById('p-title').innerText = name;
+    document.getElementById('p-sub').innerText = `Price: $${price} • ${stats}`;
+    // wire payment buttons
+    document.getElementById('btn-cash').onclick = ()=> window.location.href = CASHAPP;
+    document.getElementById('btn-paypal').onclick = ()=> window.location.href = PAYPAL;
+    document.getElementById('btn-btc').onclick = ()=> { copyToClipboard(BTC_ADDR); alert('BTC address copied to clipboard'); };
+    showPage('product-checkout');
+  }
+
+  function copyToClipboard(text){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).catch(()=>{ fallbackCopy(text); });
+    } else fallbackCopy(text);
+  }
+  function fallbackCopy(text){
+    const t = document.createElement('textarea');
+    t.value = text; document.body.appendChild(t); t.focus(); t.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    t.remove();
+  }
+  function copyBTC(){ copyToClipboard(BTC_ADDR); alert('BTC address copied: ' + BTC_ADDR); }
+
+  // -------------------------
+  // Form submissions (send to webhooks)
+  // -------------------------
+  async function postWebhook(url, content){
+    try{
+      await fetch(url, {
+        method:'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ content })
+      });
+      return true;
+    }catch(e){
+      console.warn('webhook post failed', e);
+      return false;
+    }
+  }
+
+  // Autojoiner form
+  const autoForm = document.getElementById('form-autojoiner');
+  if(autoForm){
+    autoForm.addEventListener('submit', async e=>{
+      e.preventDefault();
+      const code = (autoForm.code && autoForm.code.value) ? autoForm.code.value.trim() : '';
+      const content = `Autojoiner Robux code submitted: ${code || '[no code provided]'}`;
+      const ok = await postWebhook(MAIN_WEBHOOK, content);
+      alert(ok ? 'Code submitted! Make a ticket in Discord and send proof.' : 'Attempted submission (webhook may be blocked). Code will still be recorded in the browser.');
+      autoForm.reset();
+      showPage('selection');
+    });
+  }
+
+  // Premium form
+  const premForm = document.getElementById('form-premium');
+  if(premForm){
+    premForm.addEventListener('submit', async e=>{
+      e.preventDefault();
+      const code = (premForm.code && premForm.code.value) ? premForm.code.value.trim() : '';
+      const content = `Premium Robux code submitted: ${code || '[no code provided]'}`;
+      const ok = await postWebhook(MAIN_WEBHOOK, content);
+      alert(ok ? 'Code submitted! Make a ticket in Discord and send proof.' : 'Attempted submission (webhook may be blocked).');
+      premForm.reset();
+      showPage('selection');
+    });
+  }
+
+  // product checkout form (for brainrots; posts to BRAINROTS_WEBHOOK)
+  const productForm = document.getElementById('product-form');
+  if(productForm){
+    productForm.addEventListener('submit', async e=>{
+      e.preventDefault();
+      const code = document.getElementById('code-input').value.trim() || '[no code provided]';
+      const content = `${CURRENT_PRODUCT.name} — $${CURRENT_PRODUCT.price} — ${CURRENT_PRODUCT.stats} — Code: ${code}`;
+      const ok = await postWebhook(BRAINROTS_WEBHOOK, content);
+      alert(ok ? 'Brainrot code submitted! Create a ticket in Discord and send proof.' : 'Attempted submission (webhook may be blocked).');
+      productForm.reset();
+      showPage('brainrots');
+    });
+  }
+
+  // utility: when user picks "Select Autojoiner" or "Select Premium" from selection, we'll open those pages
+  document.querySelectorAll('.btn').forEach(b=>{
+    // already wired via onclick attributes above
+  });
+
+  // end
 </script>
-</head>
-
-<body>
-
-<!-- TOP TABS -->
-<div class="tabs">
-  <div class="tab active" data-tab="autojoiner" onclick="openTab('autojoiner')">Autojoiner</div>
-  <div class="tab" data-tab="premium" onclick="openTab('premium')">Premium Key</div>
-  <div class="tab" data-tab="brainrots" onclick="openTab('brainrots')">Brainrots</div>
-</div>
-
-<!-- AUTOJOINER TAB -->
-<div class="tab-content active" id="autojoiner">
-  <h2>Autojoiner 100M+ </h2>
-  <p>Price: $10/week</p>
-  <button class="button" onclick="openProduct('Autojoiner Key', 10, '100M+ joins/week')">Buy Now</button>
-</div>
-
-<!-- PREMIUM KEY TAB -->
-<div class="tab-content" id="premium">
-  <h2>Premium Key</h2>
-  <p>Price: $5 Lifetime</p>
-  <button class="button" onclick="openProduct('Premium Key', 5, 'Lifetime Access')">Buy Now</button>
-</div>
-
-<!-- BRAINROTS TAB -->
-<div class="tab-content" id="brainrots">
-  <h2>Brainrots Store</h2>
-
-  <div class="product-box" onclick="openProduct('Mieteteira Biciclerteira', 10, 'Produces 156 M/s')">
-    Mieteteira Biciclerteira — $10 — 156 M/s
-  </div>
-
-  <div class="product-box" onclick="openProduct('Los 67', 10, '202 M/s')">
-    Los 67 — $10 — 202 M/s
-  </div>
-
-  <div class="product-box" onclick="openProduct('Evildon', 10, '31.5 M/s • No Traits')">
-    Evildon — $10 — 31.5 M/s
-  </div>
-
-  <div class="product-box" onclick="openProduct('Ketchuro & Musture', 25, '42.5 M/s • No Traits')">
-    Ketchuro & Musture — $25 — 42.5 M/s
-  </div>
-
-  <div class="product-box" onclick="openProduct('Esok Sekolah Mutation Ying Yang', 20, '225 M/s • No Traits')">
-    Esok Sekolah Mutation Ying Yang — $20 — 225 M/s
-  </div>
-
-  <div class="product-box" onclick="openProduct('Esok Sekolah Regular', 5, '30 M/s • 5 in stock')">
-    Esok Sekolah Regular — $5 — 30 M/s
-  </div>
-
-  <div class="product-box" onclick="openProduct('Los Bro Gold + Nyan Cat', 20, '150 M/s • Nyan Cat Trait')">
-    Los Bro Gold — $20 — 150 M/s — Nyan Cat Trait
-  </div>
-
-  <div class="product-box" onclick="openProduct('Los Bros Again Hat Trait', 15, '108 M/s • Hat Trait')">
-    Los Bros Again — $15 — 108 M/s — Hat Trait
-  </div>
-
-  <div class="product-box" onclick="openProduct('Las Sis Hat Trait', 10, '78.7 M/s • Hat Trait')">
-    Las Sis — $10 — 78.7 M/s — Hat Trait
-  </div>
-
-  <div class="product-box" onclick="openProduct('Los Mobilis Rainbow Mutation', 10, '220 M/s • Rainbow Mutation')">
-    Los Mobilis Rainbow — $10 — 220 M/s
-  </div>
-
-  <div class="product-box" onclick="openProduct('Los Mobilis Rainbow + Taco Trait', 12, '264 M/s • Taco Trait')">
-    Los Mobilis Rainbow (Taco Trait) — $12 — 264 M/s
-  </div>
-
-  <div class="product-box" onclick="openProduct('Spaghetti Tualetti Gold Taco', 20, '195 M/s • Gold + Taco')">
-    Spaghetti Tualetti (Gold + Taco) — $20 — 195 M/s
-  </div>
-
-  <div class="product-box" onclick="openProduct('Spaghetti Tualetti Gold', 10, '75 M/s • Gold')">
-    Spaghetti Tualetti (Gold) — $10 — 75 M/s
-  </div>
-
-  <div class="product-box" onclick="openProduct('Spaghetti Tualetti Nyan Cat', 25, '360 M/s • Nyan Cat')">
-    Spaghetti Tualetti (Nyan Cat) — $25 — 360 M/s
-  </div>
-
-  <div class="product-box" onclick="openProduct('La Grande Combinasion', 10, '120 M/s • Bubble Gum • Bombardillo • Fire')">
-    La Grande Combinasion — $10 — 120 M/s — 3 Traits
-  </div>
-
-  <div class="product-box" onclick="openProduct('La Spooky Grade', 15, '20.8 M/s • Diamond • Taco • Fire')">
-    La Spooky Grade — $15 — 20.8 M/s — Diamond/Taco/Fire
-  </div>
-
-  <div class="product-box" onclick="openProduct('Chilin Chili', 30, '335 M/s • Orcalero • Cucaracha • Fire')">
-    Chilin Chili — $30 — 335 M/s — 3 Traits
-  </div>
-
-  <div class="product-box" onclick="openProduct('La Taco Combinasion', 30, '210 M/s • Fire Trait')">
-    La Taco Combinasion — $30 — 210 M/s — Fire Trait
-  </div>
-
-</div>
-
-
-
-
-<!-- CHECKOUT TAB -->
-<div class="tab-content" id="checkout">
-  <h2 id="checkout-title">Checkout</h2>
-  <p id="checkout-info"></p>
-
-  <h3>Select Payment Method:</h3>
-  <button class="button" onclick="window.location.href='https://cash.app/$ApplicationLS'">CashApp</button>
-  <button class="button" onclick="window.location.href='https://www.paypal.me/SteFkSo'">PayPal</button>
-
-  <button class="button" style="background:#933;" onclick="backToBrainrots()">Back</button>
-</div>
-
 </body>
 </html>
