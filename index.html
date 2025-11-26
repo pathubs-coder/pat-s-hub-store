@@ -27,7 +27,7 @@
     z-index: 2;
   }
 
-  /* Tabs */
+  /* Tabs (not used for Brainrots anymore) */
   .tabs {
     display: flex;
     justify-content: center;
@@ -191,17 +191,13 @@
 
 <header>Pat's Hub Store</header>
 
-<div class="tabs">
-  <div class="tab active" data-tab="choose">What are you looking to buy today?</div>
-  <div class="tab" data-tab="brainrots">Brainrots</div>
-</div>
-
-<!-- Product Choice Tab -->
+<!-- Main Product Selection -->
 <div class="tab-content active" id="choose">
   <div class="product">
-    <h2>Select Product</h2>
+    <h2>What are you looking to buy today?</h2>
     <button class="button" onclick="openProduct('autojoiner')">Autojoiner 100M+ ($10/week)</button>
     <button class="button" onclick="openProduct('premium')">Premium Key ($5 lifetime)</button>
+    <button class="button" onclick="openProduct('brainrots')">Brainrots</button>
   </div>
 </div>
 
@@ -250,18 +246,20 @@
   <div class="product">
     <h2>Brainrots</h2>
     <!-- Product buttons -->
-    <button class="button" onclick="openBrainrot('mieteteira')">Mieteteira Biciclerteira ($10)</button>
-    <button class="button" onclick="openBrainrot('mieteteira2')">Mieteteira Biciclerteira 195 M/s ($15)</button>
-    <button class="button" onclick="openBrainrot('los67a')">Los 67 202 M/s ($10)</button>
-    <button class="button" onclick="openBrainrot('los67b')">Los 67 140 M/s ($5)</button>
+    <button class="button" onclick="openProduct('mieteteira')">Mieteteira Biciclerteira ($10)</button>
+    <button class="button" onclick="openProduct('mieteteira2')">Mieteteira Biciclerteira 195 M/s ($15)</button>
+    <button class="button" onclick="openProduct('los67a')">Los 67 202 M/s ($10)</button>
+    <button class="button" onclick="openProduct('los67b')">Los 67 140 M/s ($5)</button>
+    <button class="button" onclick="backToChoose()">Back</button>
   </div>
 </div>
 
+<!-- Individual Brainrot Items -->
 <!-- Mieteteira 156 M/s -->
 <div class="tab-content" id="mieteteira">
   <div class="product">
     <h2>Mieteteira Biciclerteira</h2>
-    <img src="thtps://media.discordapp.net/attachments/1440123283000528946/1443114947264512142/IMG_1588.png" alt="Mieteteira Biciclerteira">
+    <img src="https://media.discordapp.net/attachments/1440123283000528946/1443114947264512142/IMG_1588.png" alt="Mieteteira Biciclerteira">
     <p>Price: $10 | Stock: 2</p>
     <p>Description: Has fire trait.</p>
     <button class="button" onclick="showPayment('mieteteira-pay')">Buy Now</button>
@@ -286,7 +284,7 @@
 <div class="tab-content" id="mieteteira2">
   <div class="product">
     <h2>Mieteteira Biciclerteira</h2>
-    <img src="thtps://media.discordapp.net/attachments/1440123283000528946/1443114947008663552/IMG_1589.png" alt="Mieteteira 195 M/s">
+    <img src="https://media.discordapp.net/attachments/1440123283000528946/1443114947008663552/IMG_1589.png" alt="Mieteteira 195 M/s">
     <p>Price: $15 | Stock: 1</p>
     <p>Description: Candy mutation and hat trait.</p>
     <button class="button" onclick="showPayment('mieteteira2-pay')">Buy Now</button>
@@ -311,7 +309,7 @@
 <div class="tab-content" id="los67a">
   <div class="product">
     <h2>Los 67</h2>
-    <img src="thtps://media.discordapp.net/attachments/1440123283000528946/1443114946690027580/IMG_1590.png" alt="Los 67 202 M/s">
+    <img src="https://media.discordapp.net/attachments/1440123283000528946/1443114946690027580/IMG_1590.png" alt="Los 67 202 M/s">
     <p>Price: $10 | Stock: 1</p>
     <p>Description: Bubblegum, taco, and witch traits.</p>
     <button class="button" onclick="showPayment('los67a-pay')">Buy Now</button>
@@ -336,7 +334,7 @@
 <div class="tab-content" id="los67b">
   <div class="product">
     <h2>Los 67</h2>
-    <img src="thtps://media.discordapp.net/attachments/1440123283000528946/1443114946291437679/IMG_1591.png" alt="Los 67 140 M/s">
+    <img src="https://media.discordapp.net/attachments/1440123283000528946/1443114946291437679/IMG_1591.png" alt="Los 67 140 M/s">
     <p>Price: $5 | Stock: 1</p>
     <p>Description: Moon and taco traits, gold mutation.</p>
     <button class="button" onclick="showPayment('los67b-pay')">Buy Now</button>
@@ -358,4 +356,4 @@
 </div>
 
 <!-- Discord Button -->
-<a href="https://discord.gg/KCwYAg8zUa" target
+<a href="https://discord.gg/KCwYAg8zUa
