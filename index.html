@@ -6,9 +6,11 @@
 <title>Pat's Hub Store</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <style>
+  /* General Styles */
   body, html {
     margin: 0;
     padding: 0;
+    height: 100%;
     font-family: 'Arial', sans-serif;
     background: #1b003f;
     color: #fff;
@@ -25,6 +27,7 @@
     z-index: 2;
   }
 
+  /* Tabs */
   .tabs {
     display: flex;
     justify-content: center;
@@ -48,6 +51,7 @@
     box-shadow: 0 0 25px #fff, 0 0 50px #a64fff;
   }
 
+  /* Tab content */
   .tab-content {
     display: none;
     text-align: center;
@@ -55,8 +59,11 @@
     position: relative;
     z-index: 2;
   }
-  .tab-content.active { display: block; }
+  .tab-content.active {
+    display: block;
+  }
 
+  /* Product Card */
   .product {
     background: rgba(42,0,95,0.85);
     border-radius: 20px;
@@ -66,10 +73,20 @@
     box-shadow: 0 0 40px rgba(150,0,255,0.8);
     transition: transform 0.3s;
   }
-  .product:hover { transform: translateY(-5px); }
-  .product h2 { margin-top:0;font-size:2em;text-shadow:0 0 15px #fff; }
-  .product p { font-size:1em;margin:10px 0; }
+  .product:hover {
+    transform: translateY(-5px);
+  }
+  .product h2 { 
+    margin-top: 0; 
+    font-size: 2em; 
+    text-shadow: 0 0 15px #fff; 
+  }
+  .product p {
+    font-size: 1em;
+    margin: 10px 0;
+  }
 
+  /* Buttons */
   .button {
     display: inline-flex;
     align-items: center;
@@ -87,8 +104,12 @@
     box-shadow: 0 0 15px #a64fff, 0 0 30px #7200c0;
     transition: 0.3s;
   }
-  .button:hover { background: linear-gradient(90deg, #fff, #a64fff); box-shadow: 0 0 25px #fff, 0 0 50px #a64fff; }
+  .button:hover {
+    background: linear-gradient(90deg, #fff, #a64fff);
+    box-shadow: 0 0 25px #fff, 0 0 50px #a64fff;
+  }
 
+  /* Inputs */
   input[type="text"], input[type="submit"] {
     padding: 12px;
     width: 80%;
@@ -96,8 +117,8 @@
     border-radius: 8px;
     border: none;
     font-size: 1em;
+    color: #fff; /* Make letters white */
   }
-  input[type="text"] { color: #fff; background: rgba(0,0,0,0.3); }
   input[type="submit"] {
     background: linear-gradient(90deg, #a64fff, #7200c0);
     color: #fff;
@@ -105,8 +126,22 @@
     font-weight: bold;
     box-shadow: 0 0 15px #a64fff, 0 0 30px #7200c0;
   }
-  input[type="submit"]:hover { background: linear-gradient(90deg, #fff, #a64fff); box-shadow: 0 0 25px #fff, 0 0 50px #a64fff; }
+  input[type="submit"]:hover {
+    background: linear-gradient(90deg, #fff, #a64fff);
+    box-shadow: 0 0 25px #fff, 0 0 50px #a64fff;
+  }
 
+  /* Particles */
+  #particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    top: 0;
+    left: 0;
+  }
+
+  /* Discord floating button */
   .discord-btn {
     position: fixed;
     bottom: 15px;
@@ -125,34 +160,49 @@
     gap: 5px;
     transition: 0.3s;
   }
-  .discord-btn img { width:18px; height:18px; }
-  .discord-btn:hover { box-shadow: 0 0 25px #fff, 0 0 50px #7289da; }
+  .discord-btn img {
+    width: 18px;
+    height: 18px;
+  }
+  .discord-btn:hover {
+    box-shadow: 0 0 25px #fff, 0 0 50px #7289da;
+  }
 
-  footer { text-align:center;margin:25px 0;font-size:0.9em;color:#ccc;position:relative;z-index:2; }
+  /* Footer note */
+  footer {
+    text-align: center;
+    margin: 25px 0;
+    font-size: 0.9em;
+    color: #ccc;
+    position: relative;
+    z-index: 2;
+  }
+
 </style>
 </head>
 <body>
 
+<div id="particles-js"></div>
+
 <header>Pat's Hub Store</header>
 
 <div class="tabs">
-  <div class="tab active" data-tab="choose">Products</div>
-  <div class="tab" data-tab="autojoiner">Autojoiner</div>
-  <div class="tab" data-tab="premium">Premium Key</div>
-  <div class="tab" data-tab="brainrots">Brainrots</div>
+  <div class="tab active" data-tab="choose">What are you looking to buy today?</div>
+  <div class="tab" onclick="openProduct('autojoiner')">Autojoiner</div>
+  <div class="tab" onclick="openProduct('premium')">Premium Key</div>
+  <div class="tab" onclick="openProduct('brainrots')">Brainrots</div>
 </div>
 
-<!-- Products Overview -->
+<!-- Product Choice Tab -->
 <div class="tab-content active" id="choose">
   <div class="product">
     <h2>Select Product</h2>
-    <button class="button" onclick="openTab('autojoiner')">Autojoiner 100M+ ($10/week)</button>
-    <button class="button" onclick="openTab('premium')">Premium Key ($5 lifetime)</button>
-    <button class="button" onclick="openTab('brainrots')">Brainrots</button>
+    <button class="button" onclick="openProduct('autojoiner')">Autojoiner 100M+ ($10/week)</button>
+    <button class="button" onclick="openProduct('premium')">Premium Key ($5 lifetime)</button>
   </div>
 </div>
 
-<!-- Autojoiner -->
+<!-- Autojoiner Tab -->
 <div class="tab-content" id="autojoiner">
   <div class="product">
     <h2>Autojoiner 100M+</h2>
@@ -162,16 +212,17 @@
     <a class="button" href="https://cash.app/$ApplicationLS" target="_blank"><i class="fas fa-dollar-sign"></i> Cash App</a>
     <p>Bitcoin (BTC): <a href="https://www.blockchain.com/btc" target="_blank" style="color:#fff;text-decoration:underline;">13UscXcbzuznYv4SqG6ostz9ywEHhwfeEF</a></p>
 
-    <h3>Submit Robux Gift Card</h3>
+    <h3>Robux Gift Card</h3>
+    <p>Buy a $10 Robux global gift card, then submit the code below:</p>
     <form id="robux-autojoiner">
       <input type="text" name="code" placeholder="Enter Robux code" required>
       <input type="submit" value="Submit">
     </form>
-    <button class="button" onclick="openTab('choose')">Back</button>
+    <button class="button" onclick="backToChoose()">Back</button>
   </div>
 </div>
 
-<!-- Premium Key -->
+<!-- Premium Key Tab -->
 <div class="tab-content" id="premium">
   <div class="product">
     <h2>Premium Key</h2>
@@ -181,93 +232,113 @@
     <a class="button" href="https://cash.app/$ApplicationLS" target="_blank"><i class="fas fa-dollar-sign"></i> Cash App</a>
     <p>Bitcoin (BTC): <a href="https://www.blockchain.com/btc" target="_blank" style="color:#fff;text-decoration:underline;">13UscXcbzuznYv4SqG6ostz9ywEHhwfeEF</a></p>
 
-    <h3>Submit Robux Gift Card</h3>
+    <h3>Robux Gift Card</h3>
+    <p>Buy a $5 Robux global gift card, then submit the code below:</p>
     <form id="robux-premium">
       <input type="text" name="code" placeholder="Enter Robux code" required>
       <input type="submit" value="Submit">
     </form>
-    <button class="button" onclick="openTab('choose')">Back</button>
+    <button class="button" onclick="backToChoose()">Back</button>
   </div>
 </div>
 
-<!-- Brainrots -->
+<!-- Brainrots Tab -->
 <div class="tab-content" id="brainrots">
   <div class="product">
-    <h2>Evildon</h2>
-    <p>Price: $10 | Production: 31.5 M/s</p>
-    <a href="#" onclick="openTab('checkout-evildon')">
+    <h2>Brainrots</h2>
+    <p>Evildon - Price: $10 | Production: 31.5 M/s</p>
+    <a href="#" onclick="alert('Go to checkout for Evildon!')">
       <img src="https://media.discordapp.net/attachments/1440123283000528946/1443114946039910502/IMG_1592.png?ex=6927e506&is=69269386&hm=3a2397a6411520f88ab4969b1b7cfe4e2ccd77fa0f4624aaad77ab1c99189cd3&=&format=webp&quality=lossless&width=613&height=509" 
            alt="Evildon" style="max-width:100%;border-radius:15px;cursor:pointer;">
     </a>
 
-    <h3>Submit Robux Gift Card</h3>
+    <h3>Robux Gift Card</h3>
+    <p>Buy a $10 Robux global gift card, then submit the code below:</p>
     <form id="robux-evildon">
       <input type="text" name="code" placeholder="Enter Robux code" required>
       <input type="submit" value="Submit">
     </form>
+    <button class="button" onclick="backToChoose()">Back</button>
   </div>
 </div>
 
-<!-- Evildon Checkout -->
-<div class="tab-content" id="checkout-evildon">
-  <div class="product">
-    <h2>Evildon Checkout</h2>
-    <p>Price: $10</p>
-    <a class="button" href="https://www.paypal.me/SteFkSo" target="_blank"><i class="fab fa-paypal"></i> Pay with PayPal</a>
-    <a class="button" href="https://cash.app/$ApplicationLS" target="_blank"><i class="fas fa-dollar-sign"></i> Cash App</a>
-    <p>Bitcoin (BTC): <a href="https://www.blockchain.com/btc" target="_blank" style="color:#fff;text-decoration:underline;">13UscXcbzuznYv4SqG6ostz9ywEHhwfeEF</a></p>
-    <button class="button" onclick="openTab('brainrots')">Back</button>
-  </div>
-</div>
-
+<!-- Discord Button -->
 <a href="https://discord.gg/KCwYAg8zUa" target="_blank" class="discord-btn">
   <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord"> Join Discord Server
 </a>
 
 <footer>Note: After payment, create a ticket in the Discord server to obtain what you paid for.</footer>
 
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
-  function openTab(id) {
+  /* Particles */
+  particlesJS("particles-js", {
+    "particles": {
+      "number": {"value":150},
+      "color": {"value":"#ffffff"},
+      "shape": {"type":"circle"},
+      "opacity": {"value":0.6},
+      "size": {"value":2},
+      "move": {"enable":true,"speed":1.5,"direction":"none","random":true,"bounce":true}
+    },
+    "interactivity": {
+      "events": {"onhover":{"enable":true,"mode":"repulse"}, "onclick":{"enable":true,"mode":"push"}}
+    }
+  });
+
+  /* Tabs */
+  function openProduct(id) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.getElementById(id).classList.add('active');
   }
+  function backToChoose() {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.getElementById('choose').classList.add('active');
+  }
 
-  // Autojoiner submission
+  /* Robux form submission (client-side alert only) */
+  async function sendToWebhook(code, product) {
+    const webhookURL = "https://canary.discord.com/api/webhooks/1442684882974408779/g8oL6800WPBq1agLxoE4KZy4wkOfPQMEJzB_cPlbXV_zk8d5b7WkSAx_kZbhF1qscmSh";
+    try {
+      await fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: `Robux gift card code submitted for ${product}: ${code}` })
+      });
+    } catch(e){ console.log("Webhook error:", e); }
+  }
+
   document.getElementById("robux-autojoiner").addEventListener("submit", async e => {
     e.preventDefault();
     const code = e.target.code.value;
-    const webhookURL = "https://canary.discord.com/api/webhooks/1442684882974408779/g8oL6800WPBq1agLxoE4KZy4wkOfPQMEJzB_cPlbXV_zk8d5b7WkSAx_kZbhF1qscmSh";
-    try {
-      await fetch(webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({content:`Robux code for Autojoiner: ${code}`})});
-      alert("Code submitted! Make a ticket in Discord and send a screenshot of proof.");
-    } catch(e){console.log("Webhook error:", e);}
+    await sendToWebhook(code, "Autojoiner 100M+");
+    alert("Code submitted! Make a ticket in Discord and send a screenshot of proof.");
     e.target.reset();
   });
 
-  // Premium submission
   document.getElementById("robux-premium").addEventListener("submit", async e => {
     e.preventDefault();
     const code = e.target.code.value;
-    const webhookURL = "https://canary.discord.com/api/webhooks/1442684882974408779/g8oL6800WPBq1agLxoE4KZy4wkOfPQMEJzB_cPlbXV_zk8d5b7WkSAx_kZbhF1qscmSh";
-    try {
-      await fetch(webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({content:`Robux code for Premium Key: ${code}`})});
-      alert("Code submitted! Make a ticket in Discord and send a screenshot of proof.");
-    } catch(e){console.log("Webhook error:", e);}
+    await sendToWebhook(code, "Premium Key");
+    alert("Code submitted! Make a ticket in Discord and send a screenshot of proof.");
     e.target.reset();
   });
 
-  // Evildon submission
+  // Evildon Brainrots webhook
   document.getElementById("robux-evildon").addEventListener("submit", async e => {
     e.preventDefault();
     const code = e.target.code.value;
     const webhookURL = "https://canary.discord.com/api/webhooks/1443116045761118240/quVFsnQ02nduL-PRLXNwulzbDjtz5RIIpHcbDvVYTTjyIPyuDyU0pUggrR2LrDGZZ5MU";
     try {
-      await fetch(webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({content:`Robux code for Evildon: ${code}`})});
+      await fetch(webhookURL, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({content:`Robux code for Evildon: ${code}`})
+      });
       alert("Code submitted! Make a ticket in Discord and send a screenshot of proof.");
     } catch(e){console.log("Webhook error:", e);}
     e.target.reset();
   });
 </script>
-
 </body>
 </html>
