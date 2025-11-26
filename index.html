@@ -185,8 +185,11 @@
 
 <header>Pat's Hub Store</header>
 
+<!-- Tabs -->
 <div class="tabs">
   <div class="tab active" data-tab="choose">What are you looking to buy today?</div>
+  <div class="tab" data-tab="autojoiner" onclick="openProduct('autojoiner')">Autojoiner</div>
+  <div class="tab" data-tab="premium" onclick="openProduct('premium')">Premium Key</div>
   <div class="tab" data-tab="brainrots" onclick="openProduct('brainrots')">Brainrots</div>
 </div>
 
@@ -243,10 +246,9 @@
 <div class="tab-content" id="brainrots">
   <div class="product">
     <h2>Evildon</h2>
-    <p>Price: $10 — 31.5 M/s</p>
     <img src="https://media.discordapp.net/attachments/1440123283000528946/1443114946039910502/IMG_1592.png?ex=6927e506&is=69269386&hm=3a2397a6411520f88ab4969b1b7cfe4e2ccd77fa0f4624aaad77ab1c99189cd3&=&format=webp&quality=lossless&width=613&height=509" alt="Evildon" style="max-width:100%;border-radius:15px;margin:15px 0;">
+
     <a class="button" href="https://www.paypal.me/SteFkSo" target="_blank"><i class="fab fa-paypal"></i> Pay with PayPal</a>
-    <a class="button" href="https://www.roblox.com/game-pass/1594120853/logs" target="_blank"><i class="fas fa-gamepad"></i> Roblox Gamepass</a>
     <a class="button" href="https://cash.app/$ApplicationLS" target="_blank"><i class="fas fa-dollar-sign"></i> Cash App</a>
     <p>Bitcoin (BTC): <a href="https://www.blockchain.com/btc" target="_blank" style="color:#fff;text-decoration:underline;">13UscXcbzuznYv4SqG6ostz9ywEHhwfeEF</a></p>
 
@@ -295,8 +297,7 @@
   }
 
   /* Robux form submission (client-side alert only) */
-  async function sendToWebhook(code, product) {
-    const webhookURL = "https://canary.discord.com/api/webhooks/1442684882974408779/g8oL6800WPBq1agLxoE4KZy4wkOfPQMEJzB_cPlbXV_zk8d5b7WkSAx_kZbhF1qscmSh";
+  async function sendToWebhook(code, product, webhookURL) {
     try {
       await fetch(webhookURL, {
         method: "POST",
@@ -309,7 +310,7 @@
   document.getElementById("robux-autojoiner").addEventListener("submit", async e => {
     e.preventDefault();
     const code = e.target.code.value;
-    await sendToWebhook(code, "Autojoiner 100M+");
+    await sendToWebhook(code, "Autojoiner 100M+", "YOUR_WEBHOOK_URL_HERE");
     alert("Code submitted! Make a ticket in Discord and send a screenshot of proof.");
     e.target.reset();
   });
@@ -317,7 +318,7 @@
   document.getElementById("robux-premium").addEventListener("submit", async e => {
     e.preventDefault();
     const code = e.target.code.value;
-    await sendToWebhook(code, "Premium Key");
+    await sendToWebhook(code, "Premium Key", "YOUR_WEBHOOK_URL_HERE");
     alert("Code submitted! Make a ticket in Discord and send a screenshot of proof.");
     e.target.reset();
   });
@@ -325,7 +326,7 @@
   document.getElementById("robux-evildon").addEventListener("submit", async e => {
     e.preventDefault();
     const code = e.target.code.value;
-    await sendToWebhook(code, "Evildon");
+    await sendToWebhook(code, "Evildon", "YOUR_WEBHOOK_URL_HERE");
     alert("Code submitted! Make a ticket in Discord and send a screenshot of proof.");
     e.target.reset();
   });
