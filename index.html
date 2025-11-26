@@ -4,376 +4,194 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pat's Hub Store</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <style>
-  /* General Styles */
-  body, html {
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: white;
     margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Arial', sans-serif;
-    background: #1b003f;
-    color: #fff;
-    overflow-x: hidden;
+    padding: 20px;
   }
 
-  header {
-    text-align: center;
-    padding: 50px 20px;
-    font-size: 2.8em;
-    font-weight: bold;
-    text-shadow: 0 0 20px #fff;
-    position: relative;
-    z-index: 2;
-  }
-
-  /* Tabs */
   .tabs {
     display: flex;
-    justify-content: center;
-    gap: 25px;
-    margin-bottom: 30px;
-    position: relative;
-    z-index: 2;
-  }
-  .tab {
-    padding: 15px 30px;
-    background: rgba(42,0,95,0.9);
-    border-radius: 15px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1.1em;
-    box-shadow: 0 0 15px #a64fff;
-    transition: 0.3s;
-  }
-  .tab:hover, .tab.active {
-    background: rgba(69,0,128,0.9);
-    box-shadow: 0 0 25px #fff, 0 0 50px #a64fff;
+    gap: 10px;
+    margin-bottom: 20px;
   }
 
-  /* Tab content */
+  .tab {
+    padding: 10px 20px;
+    background: #222;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .tab.active {
+    background: #444;
+  }
+
   .tab-content {
     display: none;
-    text-align: center;
-    padding: 20px;
-    position: relative;
-    z-index: 2;
   }
+
   .tab-content.active {
     display: block;
   }
 
-  /* Product Card */
-  .product {
-    background: rgba(42,0,95,0.85);
-    border-radius: 20px;
-    padding: 40px 35px;
-    max-width: 650px;
-    margin: 30px auto;
-    box-shadow: 0 0 40px rgba(150,0,255,0.8);
-    transition: transform 0.3s;
-  }
-  .product:hover {
-    transform: translateY(-5px);
-  }
-  .product h2 { 
-    margin-top: 0; 
-    font-size: 2em; 
-    text-shadow: 0 0 15px #fff; 
-  }
-  .product p {
-    font-size: 1em;
-    margin: 10px 0;
-  }
-
-  /* Buttons */
   .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin: 10px 5px;
-    padding: 12px 22px;
-    background: linear-gradient(90deg, #a64fff, #7200c0);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1em;
-    box-shadow: 0 0 15px #a64fff, 0 0 30px #7200c0;
-    transition: 0.3s;
-  }
-  .button:hover {
-    background: linear-gradient(90deg, #fff, #a64fff);
-    box-shadow: 0 0 25px #fff, 0 0 50px #a64fff;
-  }
-
-  /* Inputs */
-  input[type="text"], input[type="submit"] {
-    padding: 12px;
-    width: 80%;
-    margin: 10px 0;
-    border-radius: 8px;
+    padding: 10px 20px;
+    background: #2b6;
     border: none;
-    font-size: 1em;
-  }
-  input[type="submit"] {
-    background: linear-gradient(90deg, #a64fff, #7200c0);
-    color: #fff;
+    color: white;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 0 15px #a64fff, 0 0 30px #7200c0;
-  }
-  input[type="submit"]:hover {
-    background: linear-gradient(90deg, #fff, #a64fff);
-    box-shadow: 0 0 25px #fff, 0 0 50px #a64fff;
+    margin: 5px 0;
   }
 
-  /* Particles */
-  #particles-js {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    top: 0;
-    left: 0;
+  .product-box {
+    background: #222;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
   }
-
-  /* Discord floating button */
-  .discord-btn {
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    background: #7289da;
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.9em;
-    box-shadow: 0 0 12px #7289da, 0 0 25px #7289da;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: 0.3s;
-  }
-  .discord-btn img {
-    width: 18px;
-    height: 18px;
-  }
-  .discord-btn:hover {
-    box-shadow: 0 0 25px #fff, 0 0 50px #7289da;
-  }
-
-  /* Footer note */
-  footer {
-    text-align: center;
-    margin: 25px 0;
-    font-size: 0.9em;
-    color: #ccc;
-    position: relative;
-    z-index: 2;
-  }
-
 </style>
+
+<script>
+function openTab(tabName) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+  document.querySelector(`.tab[data-tab='${tabName}']`).classList.add('active');
+  document.getElementById(tabName).classList.add('active');
+}
+
+function openProduct(name, price, stats) {
+  document.getElementById("checkout-title").innerText = name;
+  document.getElementById("checkout-info").innerText = `Price: $${price} • ${stats}`;
+  openTab("checkout");
+}
+
+function backToBrainrots() {
+  openTab("brainrots");
+}
+</script>
 </head>
+
 <body>
 
-<div id="particles-js"></div>
-
-<header>Pat's Hub Store</header>
-
+<!-- TOP TABS -->
 <div class="tabs">
-  <div class="tab active" data-tab="choose">What are you looking to buy today?</div>
-  <div class="tab" data-tab="brainrots" onclick="openProduct('brainrots')">Brainrots</div>
+  <div class="tab active" data-tab="autojoiner" onclick="openTab('autojoiner')">Autojoiner</div>
+  <div class="tab" data-tab="premium" onclick="openTab('premium')">Premium Key</div>
+  <div class="tab" data-tab="brainrots" onclick="openTab('brainrots')">Brainrots</div>
 </div>
 
-<!-- Product Choice Tab -->
-<div class="tab-content active" id="choose">
-  <div class="product">
-    <h2>Select Product</h2>
-    <button class="button" onclick="openProduct('autojoiner')">Autojoiner 100M+ ($10/week)</button>
-    <button class="button" onclick="openProduct('premium')">Premium Key ($5 lifetime)</button>
-  </div>
+<!-- AUTOJOINER TAB -->
+<div class="tab-content active" id="autojoiner">
+  <h2>Autojoiner 100M+ </h2>
+  <p>Price: $10/week</p>
+  <button class="button" onclick="openProduct('Autojoiner Key', 10, '100M+ joins/week')">Buy Now</button>
 </div>
 
-<!-- Autojoiner Tab -->
-<div class="tab-content" id="autojoiner">
-  <div class="product">
-    <h2>Autojoiner 100M+</h2>
-    <p>Price: $10/week | Produces: 156 M/s</p>
-    <a class="button" href="https://www.paypal.me/SteFkSo" target="_blank"><i class="fab fa-paypal"></i> Pay with PayPal</a>
-    <a class="button" href="https://www.roblox.com/game-pass/1594120853/logs" target="_blank"><i class="fas fa-gamepad"></i> Roblox Gamepass</a>
-    <a class="button" href="https://cash.app/$ApplicationLS" target="_blank"><i class="fas fa-dollar-sign"></i> Cash App</a>
-    <p>Bitcoin (BTC): <a href="https://www.blockchain.com/btc" target="_blank" style="color:#fff;text-decoration:underline;">13UscXcbzuznYv4SqG6ostz9ywEHhwfeEF</a></p>
-
-    <h3>Robux Gift Card</h3>
-    <p>Buy a $10 Robux global gift card, then submit the code below:</p>
-    <form id="robux-autojoiner">
-      <input type="text" name="code" placeholder="Enter Robux code" required>
-      <input type="submit" value="Submit">
-    </form>
-    <button class="button" onclick="backToChoose()">Back</button>
-  </div>
-</div>
-
-<!-- Premium Key Tab -->
+<!-- PREMIUM KEY TAB -->
 <div class="tab-content" id="premium">
-  <div class="product">
-    <h2>Premium Key</h2>
-    <p>Price: $5 lifetime</p>
-    <a class="button" href="https://www.paypal.me/SteFkSo" target="_blank"><i class="fab fa-paypal"></i> Pay with PayPal</a>
-    <a class="button" href="https://www.roblox.com/game-pass/1586269461/script" target="_blank"><i class="fas fa-gamepad"></i> Roblox Gamepass</a>
-    <a class="button" href="https://cash.app/$ApplicationLS" target="_blank"><i class="fas fa-dollar-sign"></i> Cash App</a>
-    <p>Bitcoin (BTC): <a href="https://www.blockchain.com/btc" target="_blank" style="color:#fff;text-decoration:underline;">13UscXcbzuznYv4SqG6ostz9ywEHhwfeEF</a></p>
-
-    <h3>Robux Gift Card</h3>
-    <p>Buy a $5 Robux global gift card, then submit the code below:</p>
-    <form id="robux-premium">
-      <input type="text" name="code" placeholder="Enter Robux code" required>
-      <input type="submit" value="Submit">
-    </form>
-    <button class="button" onclick="backToChoose()">Back</button>
-  </div>
+  <h2>Premium Key</h2>
+  <p>Price: $5 Lifetime</p>
+  <button class="button" onclick="openProduct('Premium Key', 5, 'Lifetime Access')">Buy Now</button>
 </div>
 
-<!-- Brainrots Tab -->
+<!-- BRAINROTS TAB -->
 <div class="tab-content" id="brainrots">
-  <div class="product">
-    <h2>Brainrots</h2>
+  <h2>Brainrots Store</h2>
 
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('evildon')">Evildon</a>
-      <p>Price: $10 | Produces: 31.5 M/s | Traits: None</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('ketchuro_musture')">Ketchuro and Musture</a>
-      <p>Price: $25 | Produces: 42.5 M/s | Traits: None</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('esok_sekolah_mutation')">Esok Sekolah Mutation Ying Yang</a>
-      <p>Price: $20 | Produces: 225 M/s | Traits: None</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('esok_sekolah_regular')">Esok Sekolah Regular</a>
-      <p>Price: $5 | Produces: 30 M/s | Traits: None | Stock: 1</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('los_bro_gold')">Los Bro Gold</a>
-      <p>Price: $20 | Produces: 150 M/s | Traits: Nyan Cat</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('los_bro_hat')">Los Bros Again Hat</a>
-      <p>Price: $15 | Produces: 108 M/s | Traits: Hat | No Mutation</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('las_sis')">Las Sis</a>
-      <p>Price: $10 | Produces: 78.7 M/s | Traits: Hat | No Mutation</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('los_mobilis_rainbow')">Los Mobilis Rainbow Mutation</a>
-      <p>Price: $10 | Produces: 220 M/s | Traits: None</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('los_mobilis_rainbow_taco')">Los Mobilis Rainbow Mutation Taco Trait</a>
-      <p>Price: $12 | Produces: 264 M/s | Traits: Taco</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('spaghetti_tualetti_mutation')">Spaghetti Tualetti Mutation Gold Taco Trait</a>
-      <p>Price: $20 | Produces: 195 M/s | Traits: Gold, Taco</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('spaghetti_tualetti_gold')">Spaghetti Tualetti Gold</a>
-      <p>Price: $10 | Produces: 75 M/s | Traits: None</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('spaghetti_tualetti_nyan')">Spaghetti Tualitti 360 M/s</a>
-      <p>Price: $25 | Produces: 360 M/s | Traits: Nyan Cat | No Mutation</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('la_grande_combinasion')">La Grande Combinasion</a>
-      <p>Price: $10 | Produces: 120 M/s | Traits: Bubble Gum, Bombardillo Cocodrillo, Fire | No Mutation</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('la_spooky_grade')">La Spooky Grade Mutation Diamond</a>
-      <p>Price: $15 | Produces: 20.8 M/s | Traits: Taco, Fire</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('chilin_chili')">Chilin Chili</a>
-      <p>Price: $30 | Produces: 335 M/s | Traits: Orcalero, Cucaracha, Fire | No Mutation</p>
-    </div>
-    <div style="margin:15px 0;">
-      <a href="#" onclick="openProduct('la_taco_combinasion')">La Taco Combinasion</a>
-      <p>Price: $30 | Produces: 210 M/s | Traits: Fire | No Mutation</p>
-    </div>
-
-    <button class="button" onclick="backToChoose()">Back</button>
+  <div class="product-box" onclick="openProduct('Mieteteira Biciclerteira', 10, 'Produces 156 M/s')">
+    Mieteteira Biciclerteira — $10 — 156 M/s
   </div>
+
+  <div class="product-box" onclick="openProduct('Los 67', 10, '202 M/s')">
+    Los 67 — $10 — 202 M/s
+  </div>
+
+  <div class="product-box" onclick="openProduct('Evildon', 10, '31.5 M/s • No Traits')">
+    Evildon — $10 — 31.5 M/s
+  </div>
+
+  <div class="product-box" onclick="openProduct('Ketchuro & Musture', 25, '42.5 M/s • No Traits')">
+    Ketchuro & Musture — $25 — 42.5 M/s
+  </div>
+
+  <div class="product-box" onclick="openProduct('Esok Sekolah Mutation Ying Yang', 20, '225 M/s • No Traits')">
+    Esok Sekolah Mutation Ying Yang — $20 — 225 M/s
+  </div>
+
+  <div class="product-box" onclick="openProduct('Esok Sekolah Regular', 5, '30 M/s • 5 in stock')">
+    Esok Sekolah Regular — $5 — 30 M/s
+  </div>
+
+  <div class="product-box" onclick="openProduct('Los Bro Gold + Nyan Cat', 20, '150 M/s • Nyan Cat Trait')">
+    Los Bro Gold — $20 — 150 M/s — Nyan Cat Trait
+  </div>
+
+  <div class="product-box" onclick="openProduct('Los Bros Again Hat Trait', 15, '108 M/s • Hat Trait')">
+    Los Bros Again — $15 — 108 M/s — Hat Trait
+  </div>
+
+  <div class="product-box" onclick="openProduct('Las Sis Hat Trait', 10, '78.7 M/s • Hat Trait')">
+    Las Sis — $10 — 78.7 M/s — Hat Trait
+  </div>
+
+  <div class="product-box" onclick="openProduct('Los Mobilis Rainbow Mutation', 10, '220 M/s • Rainbow Mutation')">
+    Los Mobilis Rainbow — $10 — 220 M/s
+  </div>
+
+  <div class="product-box" onclick="openProduct('Los Mobilis Rainbow + Taco Trait', 12, '264 M/s • Taco Trait')">
+    Los Mobilis Rainbow (Taco Trait) — $12 — 264 M/s
+  </div>
+
+  <div class="product-box" onclick="openProduct('Spaghetti Tualetti Gold Taco', 20, '195 M/s • Gold + Taco')">
+    Spaghetti Tualetti (Gold + Taco) — $20 — 195 M/s
+  </div>
+
+  <div class="product-box" onclick="openProduct('Spaghetti Tualetti Gold', 10, '75 M/s • Gold')">
+    Spaghetti Tualetti (Gold) — $10 — 75 M/s
+  </div>
+
+  <div class="product-box" onclick="openProduct('Spaghetti Tualetti Nyan Cat', 25, '360 M/s • Nyan Cat')">
+    Spaghetti Tualetti (Nyan Cat) — $25 — 360 M/s
+  </div>
+
+  <div class="product-box" onclick="openProduct('La Grande Combinasion', 10, '120 M/s • Bubble Gum • Bombardillo • Fire')">
+    La Grande Combinasion — $10 — 120 M/s — 3 Traits
+  </div>
+
+  <div class="product-box" onclick="openProduct('La Spooky Grade', 15, '20.8 M/s • Diamond • Taco • Fire')">
+    La Spooky Grade — $15 — 20.8 M/s — Diamond/Taco/Fire
+  </div>
+
+  <div class="product-box" onclick="openProduct('Chilin Chili', 30, '335 M/s • Orcalero • Cucaracha • Fire')">
+    Chilin Chili — $30 — 335 M/s — 3 Traits
+  </div>
+
+  <div class="product-box" onclick="openProduct('La Taco Combinasion', 30, '210 M/s • Fire Trait')">
+    La Taco Combinasion — $30 — 210 M/s — Fire Trait
+  </div>
+
 </div>
 
-<!-- Discord Button -->
-<a href="https://discord.gg/KCwYAg8zUa" target="_blank" class="discord-btn">
-  <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord"> Join Discord Server
-</a>
 
-<footer>Note: After payment, create a ticket in the Discord server to obtain what you paid for.</footer>
 
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script>
-  /* Particles */
-  particlesJS("particles-js", {
-    "particles": {
-      "number": {"value":150},
-      "color": {"value":"#ffffff"},
-      "shape": {"type":"circle"},
-      "opacity": {"value":0.6},
-      "size": {"value":2},
-      "move": {"enable":true,"speed":1.5,"direction":"none","random":true,"bounce":true}
-    },
-    "interactivity": {
-      "events": {"onhover":{"enable":true,"mode":"repulse"}, "onclick":{"enable":true,"mode":"push"}}
-    }
-  });
 
-  /* Tabs */
-  function openProduct(id) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-  }
-  function backToChoose() {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-    document.getElementById('choose').classList.add('active');
-  }
+<!-- CHECKOUT TAB -->
+<div class="tab-content" id="checkout">
+  <h2 id="checkout-title">Checkout</h2>
+  <p id="checkout-info"></p>
 
-  /* Robux form submission (client-side alert only) */
-  async function sendToWebhook(code, product) {
-    const webhookURL = "https://canary.discord.com/api/webhooks/1442684882974408779/g8oL6800WPBq1agLxoE4KZy4wkOfPQMEJzB_cPlbXV_zk8d5b7WkSAx_kZbhF1qscmSh";
-    try {
-      await fetch(webhookURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: `Robux gift card code submitted for ${product}: ${code}` })
-      });
-    } catch(e){ console.log("Webhook error:", e); }
-  }
+  <h3>Select Payment Method:</h3>
+  <button class="button" onclick="window.location.href='https://cash.app/$ApplicationLS'">CashApp</button>
+  <button class="button" onclick="window.location.href='https://www.paypal.me/SteFkSo'">PayPal</button>
 
-  document.getElementById("robux-autojoiner").addEventListener("submit", async e => {
-    e.preventDefault();
-    const code = e.target.code.value;
-    await sendToWebhook(code, "Autojoiner 100M+");
-    alert("Code submitted! Make a ticket in Discord and send a screenshot of proof.");
-    e.target.reset();
-  });
+  <button class="button" style="background:#933;" onclick="backToBrainrots()">Back</button>
+</div>
 
-  document.getElementById("robux-premium").addEventListener("submit", async e => {
-    e.preventDefault();
-    const code = e.target.code.value;
-    await sendToWebhook(code, "Premium Key");
-    alert("Code submitted! Make a ticket in Discord and send a screenshot of proof.");
-    e.target.reset();
-  });
-</script>
 </body>
 </html>
