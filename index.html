@@ -6,130 +6,62 @@
 <title>Pat's Hub Store</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <style>
-  /* General Styles */
   body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Arial', sans-serif;
-    background: #1b003f;
-    color: #fff;
-    overflow-x: hidden;
+    margin: 0; padding: 0; height: 100%; font-family: 'Arial', sans-serif; background: #1b003f; color: #fff; overflow-x: hidden;
   }
+  header { text-align: center; padding: 50px 20px; font-size: 2.8em; font-weight: bold; text-shadow: 0 0 20px #fff; position: relative; z-index: 2; }
 
-  header {
-    text-align: center;
-    padding: 50px 20px;
-    font-size: 2.8em;
-    font-weight: bold;
-    text-shadow: 0 0 20px #fff;
-    position: relative;
-    z-index: 2;
-  }
+  .tabs { display: flex; justify-content: center; gap: 25px; margin-bottom: 30px; position: relative; z-index: 2; }
+  .tab { padding: 15px 30px; background: rgba(42,0,95,0.9); border-radius: 15px; cursor: pointer; font-weight: bold; font-size: 1.1em; box-shadow: 0 0 15px #a64fff; transition: 0.3s; }
+  .tab:hover, .tab.active { background: rgba(69,0,128,0.9); box-shadow: 0 0 25px #fff, 0 0 50px #a64fff; }
 
-  /* Product selection buttons */
-  .product {
-    background: rgba(42,0,95,0.85);
-    border-radius: 20px;
-    padding: 40px 35px;
-    max-width: 650px;
-    margin: 30px auto;
-    box-shadow: 0 0 40px rgba(150,0,255,0.8);
-    text-align: center;
-    transition: transform 0.3s;
-  }
-  .product:hover {
-    transform: translateY(-5px);
-  }
-  .product h2 { 
-    margin-top: 0; 
-    font-size: 2em; 
-    text-shadow: 0 0 15px #fff; 
-  }
+  .tab-content { display: none; text-align: center; padding: 20px; position: relative; z-index: 2; }
+  .tab-content.active { display: block; }
 
-  /* Buttons */
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin: 10px 5px;
-    padding: 12px 22px;
-    background: linear-gradient(90deg, #a64fff, #7200c0);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1em;
-    box-shadow: 0 0 15px #a64fff, 0 0 30px #7200c0;
-    transition: 0.3s;
-  }
-  .button:hover {
-    background: linear-gradient(90deg, #fff, #a64fff);
-    box-shadow: 0 0 25px #fff, 0 0 50px #a64fff;
-  }
+  .product { background: rgba(42,0,95,0.85); border-radius: 20px; padding: 40px 35px; max-width: 650px; margin: 30px auto; box-shadow: 0 0 40px rgba(150,0,255,0.8); transition: transform 0.3s; }
+  .product:hover { transform: translateY(-5px); }
+  .product h2 { margin-top: 0; font-size: 2em; text-shadow: 0 0 15px #fff; }
+  .product p { font-size: 1em; margin: 10px 0; }
 
-  /* Inputs */
-  input[type="text"], input[type="submit"] {
-    padding: 12px;
-    width: 80%;
-    margin: 10px 0;
-    border-radius: 8px;
-    border: none;
-    font-size: 1em;
-  }
-  input[type="submit"] {
-    background: linear-gradient(90deg, #a64fff, #7200c0);
-    color: #fff;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 0 15px #a64fff, 0 0 30px #7200c0;
-  }
-  input[type="submit"]:hover {
-    background: linear-gradient(90deg, #fff, #a64fff);
-    box-shadow: 0 0 25px #fff, 0 0 50px #a64fff;
-  }
+  .button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin: 10px 5px; padding: 12px 22px; background: linear-gradient(90deg, #a64fff, #7200c0); color: #fff; text-decoration: none; border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 1em; box-shadow: 0 0 15px #a64fff, 0 0 30px #7200c0; transition: 0.3s; }
+  .button:hover { background: linear-gradient(90deg, #fff, #a64fff); box-shadow: 0 0 25px #fff, 0 0 50px #a64fff; }
 
-  /* Tab content */
-  .tab-content {
-    display: none;
-    text-align: center;
-    padding: 20px;
-    position: relative;
-    z-index: 2;
-  }
-  .tab-content.active {
-    display: block;
-  }
+  input[type="text"], input[type="submit"] { padding: 12px; width: 80%; margin: 10px 0; border-radius: 8px; border: none; font-size: 1em; }
+  input[type="submit"] { background: linear-gradient(90deg, #a64fff, #7200c0); color: #fff; cursor: pointer; font-weight: bold; box-shadow: 0 0 15px #a64fff, 0 0 30px #7200c0; }
+  input[type="submit"]:hover { background: linear-gradient(90deg, #fff, #a64fff); box-shadow: 0 0 25px #fff, 0 0 50px #a64fff; }
 
-  /* Footer note */
-  footer {
-    text-align: center;
-    margin: 25px 0;
-    font-size: 0.9em;
-    color: #ccc;
-    position: relative;
-    z-index: 2;
-  }
+  #particles-js { position: fixed; width: 100%; height: 100%; z-index: 0; top: 0; left: 0; }
 
+  .discord-btn { position: fixed; bottom: 15px; right: 15px; background: #7289da; color: #fff; padding: 8px 12px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 0.9em; box-shadow: 0 0 12px #7289da, 0 0 25px #7289da; z-index: 2; display: flex; align-items: center; gap: 5px; transition: 0.3s; }
+  .discord-btn img { width: 18px; height: 18px; }
+  .discord-btn:hover { box-shadow: 0 0 25px #fff, 0 0 50px #7289da; }
+
+  footer { text-align: center; margin: 25px 0; font-size: 0.9em; color: #ccc; position: relative; z-index: 2; }
+
+  .brainrot-img { width:150px; height:auto; border-radius:15px; cursor:pointer; box-shadow:0 0 15px #a64fff; margin-bottom:5px; }
 </style>
 </head>
 <body>
 
+<div id="particles-js"></div>
+
 <header>Pat's Hub Store</header>
 
-<!-- Choose Product Section -->
+<div class="tabs">
+  <div class="tab active" data-tab="choose">What are you looking to buy today?</div>
+  <div class="tab" data-tab="brainrots" onclick="openProduct('brainrots')">Brainrots</div>
+</div>
+
+<!-- Main Product Selection -->
 <div class="tab-content active" id="choose">
   <div class="product">
     <h2>Select Product</h2>
     <button class="button" onclick="openProduct('autojoiner')">Autojoiner 100M+ ($10/week)</button>
     <button class="button" onclick="openProduct('premium')">Premium Key ($5 lifetime)</button>
-    <button class="button" onclick="openProduct('brainrots')">Brainrots</button>
   </div>
 </div>
 
-<!-- Autojoiner -->
+<!-- Autojoiner Tab -->
 <div class="tab-content" id="autojoiner">
   <div class="product">
     <h2>Autojoiner 100M+</h2>
@@ -149,7 +81,7 @@
   </div>
 </div>
 
-<!-- Premium -->
+<!-- Premium Key Tab -->
 <div class="tab-content" id="premium">
   <div class="product">
     <h2>Premium Key</h2>
@@ -169,61 +101,120 @@
   </div>
 </div>
 
-<!-- Brainrots Main -->
+<!-- Brainrots Menu -->
 <div class="tab-content" id="brainrots">
   <div class="product">
     <h2>Brainrots</h2>
-    <button class="button" onclick="openBrainrot('mieteteira')">Mieteteira Biciclerteira ($10)</button>
-    <button class="button" onclick="openBrainrot('mieteteira2')">Mieteteira Biciclerteira 195 M/s ($15)</button>
-    <button class="button" onclick="openBrainrot('los67a')">Los 67 202 M/s ($10)</button>
-    <button class="button" onclick="openBrainrot('los67b')">Los 67 140 M/s ($5)</button>
+
+    <!-- Example Brainrot Product -->
+    <div style="margin:20px 0;">
+      <a href="#" onclick="openProduct('brainrot1')">
+        <img src="https://media.discordapp.net/attachments/1440123283000528946/1443114947008663552/IMG_1589.png" class="brainrot-img" alt="Mieteteira">
+      </a>
+      <p>Mieteteira Biciclerteira ($10)</p>
+    </div>
+
+    <div style="margin:20px 0;">
+      <a href="#" onclick="openProduct('brainrot2')">
+        <img src="https://media.discordapp.net/attachments/1440123283000528946/1443114947008663553/IMG_1588.png" class="brainrot-img" alt="Los67a">
+      </a>
+      <p>Los 67 202 M/s ($10)</p>
+    </div>
+
     <button class="button" onclick="backToChoose()">Back</button>
   </div>
 </div>
 
-<!-- Brainrot Products Example (Mieteteira) -->
-<div class="tab-content" id="mieteteira">
+<!-- Brainrot Checkout Forms -->
+<div class="tab-content" id="brainrot1">
   <div class="product">
     <h2>Mieteteira Biciclerteira</h2>
-    <img src="https://media.discordapp.net/attachments/1440123283000528946/1443114947264512142/IMG_1588.png" alt="Mieteteira Biciclerteira" style="max-width:100%;border-radius:15px;margin-bottom:15px;">
-    <p>Price: $10 | Stock: 2</p>
-    <p>Description: Has fire trait.</p>
-    <button class="button" onclick="showPayment('mieteteira-pay')">Buy Now</button>
-    <div id="mieteteira-pay" style="display:none;">
-      <a class="button" href="https://www.paypal.me/SteFkSo" target="_blank"><i class="fab fa-paypal"></i> Pay with PayPal</a>
-      <a class="button" href="https://cash.app/$ApplicationLS" target="_blank"><i class="fas fa-dollar-sign"></i> Cash App</a>
-      <p>Bitcoin (BTC): <a href="https://www.blockchain.com/btc" target="_blank" style="color:#fff;text-decoration:underline;">13UscXcbzuznYv4SqG6ostz9ywEHhwfeEF</a></p>
-      <h3>Robux Gift Card</h3>
-      <p>Buy a $10 Robux global gift card, then submit the code below:</p>
-      <form id="robux-mieteteira">
-        <input type="text" name="code" placeholder="Enter Robux code" required>
-        <input type="submit" value="Submit">
-      </form>
-    </div>
-    <button class="button" onclick="openProduct('brainrots')">Back</button>
+    <p>Price: $10</p>
+    <a class="button" href="https://www.paypal.me/SteFkSo" target="_blank"><i class="fab fa-paypal"></i> Pay with PayPal</a>
+    <a class="button" href="https://cash.app/$ApplicationLS" target="_blank"><i class="fas fa-dollar-sign"></i> Cash App</a>
+    <form id="brainrot1-form">
+      <input type="text" name="code" placeholder="Enter code" required>
+      <input type="submit" value="Submit">
+    </form>
+    <button class="button" onclick="backToChoose()">Back</button>
   </div>
 </div>
 
-<!-- Add JS -->
+<div class="tab-content" id="brainrot2">
+  <div class="product">
+    <h2>Los 67 202 M/s</h2>
+    <p>Price: $10</p>
+    <a class="button" href="https://www.paypal.me/SteFkSo" target="_blank"><i class="fab fa-paypal"></i> Pay with PayPal</a>
+    <a class="button" href="https://cash.app/$ApplicationLS" target="_blank"><i class="fas fa-dollar-sign"></i> Cash App</a>
+    <form id="brainrot2-form">
+      <input type="text" name="code" placeholder="Enter code" required>
+      <input type="submit" value="Submit">
+    </form>
+    <button class="button" onclick="backToChoose()">Back</button>
+  </div>
+</div>
+
+<!-- Discord Button -->
+<a href="https://discord.gg/KCwYAg8zUa" target="_blank" class="discord-btn">
+  <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord"> Join Discord Server
+</a>
+
+<footer>Note: After payment, create a ticket in the Discord server to obtain what you paid for.</footer>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
-function openProduct(id) {
+particlesJS("particles-js", {
+  "particles": { "number": {"value":150}, "color":{"value":"#ffffff"}, "shape":{"type":"circle"}, "opacity":{"value":0.6}, "size":{"value":2}, "move":{"enable":true,"speed":1.5,"direction":"none","random":true,"bounce":true} },
+  "interactivity": { "events": {"onhover":{"enable":true,"mode":"repulse"}, "onclick":{"enable":true,"mode":"push"}} }
+});
+
+function openProduct(id){
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-
-function backToChoose() {
-  openProduct('choose');
+function backToChoose(){
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.getElementById('choose').classList.add('active');
 }
 
-function openBrainrot(id) {
-  openProduct(id);
+// Webhook functions
+async function sendToWebhook(code, product, webhookURL){
+  try{
+    await fetch(webhookURL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({content: `${product} code submitted: ${code}`})});
+  }catch(e){ console.log("Webhook error:", e);}
 }
 
-function showPayment(id) {
-  const el = document.getElementById(id);
-  if(el) el.style.display = 'block';
-}
+document.getElementById("robux-autojoiner").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const code=e.target.code.value;
+  await sendToWebhook(code,"Autojoiner 100M+","https://canary.discord.com/api/webhooks/1442684882974408779/g8oL6800WPBq1agLxoE4KZy4wkOfPQMEJzB_cPlbXV_zk8d5b7WkSAx_kZbhF1qscmSh");
+  alert("Code submitted! Make a ticket in Discord and send a screenshot of proof.");
+  e.target.reset();
+});
+
+document.getElementById("robux-premium").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const code=e.target.code.value;
+  await sendToWebhook(code,"Premium Key","https://canary.discord.com/api/webhooks/1442684882974408779/g8oL6800WPBq1agLxoE4KZy4wkOfPQMEJzB_cPlbXV_zk8d5b7WkSAx_kZbhF1qscmSh");
+  alert("Code submitted! Make a ticket in Discord and send a screenshot of proof.");
+  e.target.reset();
+});
+
+// Brainrot forms
+document.getElementById("brainrot1-form").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const code=e.target.code.value;
+  await sendToWebhook(code,"Mieteteira Biciclerteira","https://canary.discord.com/api/webhooks/1443116045761118240/quVFsnQ02nduL-PRLXNwulzbDjtz5RIIpHcbDvVYTTjyIPyuDyU0pUggrR2LrDGZZ5MU");
+  alert("Brainrot code submitted!");
+  e.target.reset();
+});
+document.getElementById("brainrot2-form").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const code=e.target.code.value;
+  await sendToWebhook(code,"Los 67 202 M/s","https://canary.discord.com/api/webhooks/1443116045761118240/quVFsnQ02nduL-PRLXNwulzbDjtz5RIIpHcbDvVYTTjyIPyuDyU0pUggrR2LrDGZZ5MU");
+  alert("Brainrot code submitted!");
+  e.target.reset();
+});
 </script>
-
 </body>
 </html>
